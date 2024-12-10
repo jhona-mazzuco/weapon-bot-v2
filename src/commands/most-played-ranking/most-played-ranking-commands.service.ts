@@ -2,17 +2,15 @@ import { Injectable, Logger, UseInterceptors } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { EmbedBuilder } from 'discord.js';
 import { Context, Options, SlashCommand, SlashCommandContext } from 'necord';
+import { PlatformAutocompleteInterceptor } from '../../autocompletes/platform.interceptor';
 import { PlatformDto } from '../../dto/PlatformDto';
-import { PlatformAutocompleteInterceptor } from '../../interceptors/platform.interceptor';
 import { MostPlayedRanking } from '../../models/MostPlayedRanking';
 
 @Injectable()
 export class MostPlayedRankingCommands {
   private readonly logger = new Logger(MostPlayedRankingCommands.name);
 
-  private async _createMostPlayedRanking(
-    href: string,
-  ): Promise<MostPlayedRanking> {
+  private async _createRanking(href: string): Promise<MostPlayedRanking> {
     const url = new URL(href);
     let source = url.origin;
     const responseCharts = await fetch(url.href);
@@ -59,9 +57,7 @@ export class MostPlayedRankingCommands {
 
     return interaction
       .deferReply()
-      .then(() =>
-        this._createMostPlayedRanking(COMMAND_CONFIG[platform].chartUrl),
-      )
+      .then(() => this._createRanking(COMMAND_CONFIG[platform].chartUrl))
       .then(({ ranking, source }) =>
         interaction.fetchReply().then(() => {
           const embed = new EmbedBuilder()
