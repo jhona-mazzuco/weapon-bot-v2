@@ -1,10 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { ConfigModule } from '@nestjs/config';
+import { IntentsBitField } from 'discord.js';
+import { NecordModule } from 'necord';
+import * as process from 'node:process';
 import { AppService } from './app.service';
+import { MostPlayedRankingCommands } from './commands/most-played-ranking/most-played-ranking-commands.service';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot(),
+    NecordModule.forRoot({
+      token: process.env.DISCORD_TOKEN,
+      intents: [IntentsBitField.Flags.Guilds],
+    }),
+  ],
+  providers: [AppService, MostPlayedRankingCommands],
 })
 export class AppModule {}
