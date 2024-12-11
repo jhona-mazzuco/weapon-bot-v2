@@ -43,5 +43,5 @@ jobs:
           remote-host: ${{ secrets.FTP_HOST }}
           remote-user: ${{ secrets.FTP_USER }}
           remote-password: ${{ secrets.FTP_PASSWORD }}
-          remote-path: /home/container/
           remote-port: ${{ secrets.FTP_PORT }}
+          remote-path: /
