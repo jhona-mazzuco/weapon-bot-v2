@@ -14,7 +14,11 @@ export class PlatformAutocompleteInterceptor extends AutocompleteInterceptor {
 
     return interaction.respond(
       choices
-        .filter((choice) => choice.startsWith(focused.value.toString()))
+        .filter((choice) =>
+          choice
+            .toLowerCase()
+            .startsWith(focused.value.toString().toLowerCase()),
+        )
         .map((choice) => ({ name: choice, value: choice })),
     );
   }
