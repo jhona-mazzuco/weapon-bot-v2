@@ -34,14 +34,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload Files
-        uses: Dylan700/sftp-upload-action@v1.2.3
+      - name: Upload files
+        uses: milanmk/actions-file-deployer@master
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          uploads: ./dist => ./home/container
-          ignore: |
-            *.git
-            */**/*git*
+          remote-protocol: sftp
+          remote-host: ${{ secrets.FTP_HOST }}
+          remote-user: ${{ secrets.FTP_USER }}
+          remote-password: ${{ secrets.FTP_PASSWORD }}
+          remote-path: /home/container
+          remote-port: ${{ secrets.FTP_PORT }}
