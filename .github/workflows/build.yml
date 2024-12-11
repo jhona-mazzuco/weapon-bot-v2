@@ -35,11 +35,9 @@ jobs:
         run: npm run build
 
       - name: Upload files
-        uses: milanmk/actions-file-deployer@master
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          remote-protocol: sftp
-          remote-host: ${{ secrets.FTP_HOST }}
-          remote-user: ${{ secrets.FTP_USER }}
-          remote-password: ${{ secrets.FTP_PASSWORD }}
-          remote-port: ${{ secrets.FTP_PORT }}
-          remote-path: /
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
