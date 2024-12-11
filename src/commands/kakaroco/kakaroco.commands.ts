@@ -54,9 +54,7 @@ export class KakarocoCommands {
         .setDescription(this._getRandomMessage());
       return interaction
         .deferReply()
-        .then(() =>
-          interaction.editReply({ embeds: [embed] }),
-        );
+        .then(() => interaction.editReply({ embeds: [embed] }));
     } catch (e) {
       this.logger.error(e.message);
       return interaction.reply({

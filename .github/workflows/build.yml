@@ -34,10 +34,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy file
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
+          username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER }}
           port: ${{ secrets.FTP_PORT }}
+          remote_path: '/'
+          sftp_only: true
+          delete_remote_files: true
