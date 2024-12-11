@@ -28,7 +28,7 @@ jobs:
       - name: Create environment file
         run: |
           touch .env
-          echo DISCORD_TOKEN=${{ env.bucket_name }} >> .env
+          echo DISCORD_TOKEN=${{ env.discord_token }} >> .env
           cat .env
 
       - name: Build
@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 2022
-          uploads: ./* => ./home/container
+          uploads: ./ => ./home/container
           ignore: |
             *.git
             */**/*git*
