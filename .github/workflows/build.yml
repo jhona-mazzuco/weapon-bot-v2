@@ -1,0 +1,51 @@
+name: Build and deploy WeaponBot
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubunt-latest
+    strategy:
+      matrix:
+        node-version: [ 20.11 ]
+
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create environment file
+        run: |
+          touch .env
+          echo DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }} >> .env
+          cat .env
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload Files
+        uses: Dylan700/sftp-upload-action@v1.2.3
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 2022
+          uploads: ./* => ./home/container
+          ignore: |
+            *.git
+            */**/*git*
