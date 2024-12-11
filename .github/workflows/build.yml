@@ -40,8 +40,8 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 2022
-          uploads: ./ => ./home/container
+          port: ${{ secrets.FTP_PORT }}
+          uploads: ./dist => ./home/container
           ignore: |
             *.git
             */**/*git*
