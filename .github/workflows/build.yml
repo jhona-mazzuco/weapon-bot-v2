@@ -2,9 +2,10 @@ name: Build and deploy WeaponBot
 on:
   push:
     branches: [ master ]
+
 jobs:
   build:
-    runs-on: ubunt-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [ 20.11 ]
