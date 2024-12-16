@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { KakarocoCommands } from './kakaroco.commands';
+import { MemeCommands } from './meme.commands';
 
-describe('KonservarocoService', () => {
-  let service: KakarocoCommands;
+describe('MemeCommands', () => {
+  let service: MemeCommands;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [KakarocoCommands],
+      providers: [MemeCommands],
     }).compile();
 
-    service = module.get<KakarocoCommands>(KakarocoCommands);
+    service = module.get<MemeCommands>(MemeCommands);
   });
 
   it('should be defined', () => {

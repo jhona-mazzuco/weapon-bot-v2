@@ -5,8 +5,9 @@ import { NecordModule } from 'necord';
 import * as process from 'node:process';
 import { AppService } from './app.service';
 import { FixupCommands } from './commands/fixup/fixup.commands';
-import { KakarocoCommands } from './commands/kakaroco/kakaroco.commands';
+import { MemeCommands } from './commands/meme/meme.commands';
 import { MostPlayedRankingCommands } from './commands/most-played-ranking/most-played-ranking-commands.service';
+import { MemeService } from './services/meme/meme.service';
 
 @Module({
   imports: [
@@ -18,9 +19,14 @@ import { MostPlayedRankingCommands } from './commands/most-played-ranking/most-p
   ],
   providers: [
     AppService,
+
+    // COMMANDS
     MostPlayedRankingCommands,
-    KakarocoCommands,
+    MemeCommands,
     FixupCommands,
+
+    // SERVICES
+    MemeService,
   ],
 })
 export class AppModule {}
