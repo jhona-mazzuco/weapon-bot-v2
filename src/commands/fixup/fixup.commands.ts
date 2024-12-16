@@ -24,7 +24,7 @@ export class FixupCommands {
         'twitter.com',
       ].includes(handleUrl.hostname);
       if (!isValid) {
-        throw new Error('Not a valid URL');
+        throw new Error(`Not a valid URL: ${url}`);
       }
 
       return interaction.reply(
