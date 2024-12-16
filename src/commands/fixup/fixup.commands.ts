@@ -16,12 +16,20 @@ export class FixupCommands {
   ) {
     try {
       const handleUrl = new URL(url);
-      const isValid = ['x.com', 'fxtwitter.com'].includes(handleUrl.hostname);
+      const isValid = [
+        'x.com',
+        'fxtwitter.com',
+        'vxtwitter.com',
+        'twittpr.com',
+        'twitter.com',
+      ].includes(handleUrl.hostname);
       if (!isValid) {
         throw new Error('Not a valid URL');
       }
 
-      return interaction.reply(`https://fxtwitter.com${handleUrl.pathname}/pt`);
+      return interaction.reply(
+        `https://fxtwitter.com${handleUrl.pathname.split('/').at(0)}/pt`,
+      );
     } catch (error) {
       this.logger.error(error.message);
       return interaction.reply({ content: 'Link inválido!' });
