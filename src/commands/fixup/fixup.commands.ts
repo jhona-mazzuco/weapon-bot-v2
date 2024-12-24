@@ -22,17 +22,21 @@ export class FixupCommands {
         'vxtwitter.com',
         'twittpr.com',
         'twitter.com',
+        'fixupx.com',
       ].includes(handleUrl.hostname);
       if (!isValid) {
         throw new Error(`Not a valid URL: ${url}`);
       }
 
       return interaction.reply(
-        `https://fxtwitter.com${handleUrl.pathname.replace('/pt', '')}/pt`,
+        `https://fixupx.com${handleUrl.pathname.replace('/pt', '')}/pt`,
       );
     } catch (error) {
       this.logger.error(error.message);
-      return interaction.reply({ content: 'Link inválido!' });
+      return interaction.reply({
+        content:
+          'Por favor insira um link do X válido, caso deveria funcionar avisar os administradores!',
+      });
     }
   }
 }
