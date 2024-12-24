@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MostPlayedRankingCommands } from './most-played-ranking-commands.service';
+import { MostPlayedRankingCommands } from './most-played-ranking.commands';
 
-describe('MostPlayedRankingService', () => {
+describe('MostPlayedRankingCommands', () => {
   let service: MostPlayedRankingCommands;
 
   beforeEach(async () => {

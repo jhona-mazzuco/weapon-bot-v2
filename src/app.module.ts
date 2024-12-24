@@ -4,10 +4,8 @@ import { IntentsBitField } from 'discord.js';
 import { NecordModule } from 'necord';
 import * as process from 'node:process';
 import { AppService } from './app.service';
-import { FixupCommands } from './commands/fixup/fixup.commands';
-import { MemeCommands } from './commands/meme/meme.commands';
-import { MostPlayedRankingCommands } from './commands/most-played-ranking/most-played-ranking-commands.service';
-import { MemeService } from './services/meme/meme.service';
+import { COMMANDS } from './commands';
+import { SERVICES } from './services';
 
 @Module({
   imports: [
@@ -17,16 +15,6 @@ import { MemeService } from './services/meme/meme.service';
       intents: [IntentsBitField.Flags.Guilds],
     }),
   ],
-  providers: [
-    AppService,
-
-    // COMMANDS
-    MostPlayedRankingCommands,
-    MemeCommands,
-    FixupCommands,
-
-    // SERVICES
-    MemeService,
-  ],
+  providers: [AppService, ...COMMANDS, ...SERVICES],
 })
 export class AppModule {}
