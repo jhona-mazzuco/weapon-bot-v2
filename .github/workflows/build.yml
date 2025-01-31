@@ -1,4 +1,4 @@
-name: build.yml
+name: Build and upload WeaponBot
 on:
   push:
     branches: [ master ]
@@ -13,36 +13,37 @@ jobs:
       matrix:
         node-version: [ 20.11 ]
 
-      steps:
-        - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-        - name: Setup Node ${{ matrix.node-version }}
-          uses: actions/setup-node@v4
-          with:
-            node-version: ${{ matrix.node-version }}
-            cache: 'npm'
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-        - name: Install dependencies
-          run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-        - name: Create environment file
-          run: |
-            touch .env
-            echo DISCORD_TOKEN=${{ env.discord_token }} >> .env
-            cat .env
+      - name: Create environment file
+        run: |
+          touch .env
+          echo DISCORD_TOKEN=${{ env.discord_token }} >> .env
+          cat .env
 
-        - name: Build
-          run: npm run build
+      - name: Build
+        run: npm run build
 
-        - name: Deploy file
-          uses: milanmk/actions-file-deployer@master
-          with:
-            remote-protocol: sftp
 
-            remote-host: ${{ secrets.FTP_HOST }}
-            remote-user: ${{ secrets.FTP_USER }}
-            remote-password: ${{ secrets.FTP_PASSWORD }}
-            remote-port: ${{ secrets.FTP_PORT }}
+      - name: Upload file
+        uses: milanmk/actions-file-deployer@master
+        with:
+          remote-protocol: sftp
 
-            remote-path: /home/container/
+          remote-host: ${{ secrets.FTP_HOST }}
+          remote-user: ${{ secrets.FTP_USER }}
+          remote-password: ${{ secrets.FTP_PASSWORD }}
+          remote-port: ${{ secrets.FTP_PORT }}
+
+          remote-path: /home/container/
 
