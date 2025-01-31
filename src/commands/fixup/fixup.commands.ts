@@ -23,14 +23,20 @@ export class FixupCommands {
         'twittpr.com',
         'twitter.com',
         'fixupx.com',
+        'bsky.app',
       ].includes(handleUrl.hostname);
       if (!isValid) {
         throw new Error(`Not a valid URL: ${url}`);
       }
 
-      return interaction.reply(
-        `https://fxtwitter.com${handleUrl.pathname.replace('/pt', '')}/pt`,
-      );
+      const isBlueSky = handleUrl.hostname.includes('bsky');
+      if (isBlueSky) {
+        return interaction.reply(`https://vxsky.app${handleUrl.pathname}`);
+      } else {
+        return interaction.reply(
+          `https://fxtwitter.com${handleUrl.pathname.replace('/pt', '')}/pt`,
+        );
+      }
     } catch (error) {
       this.logger.error(error.message);
       return interaction.reply({
