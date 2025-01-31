@@ -41,12 +41,11 @@ jobs:
       - name: Upload file
         uses: milanmk/actions-file-deployer@master
         with:
-          remote-protocol: sftp
+          remote-protocol: "sftp"
+          remote-host: "${{ secrets.FTP_HOST }}"
+          remote-user: "${{ secrets.FTP_USER }}"
+          remote-password: "${{ secrets.FTP_PASSWORD }}"
+          remote-port: "${{ secrets.FTP_PORT }}"
 
-          remote-host: ${{ secrets.FTP_HOST }}
-          remote-user: ${{ secrets.FTP_USER }}
-          remote-password: ${{ secrets.FTP_PASSWORD }}
-          remote-port: ${{ secrets.FTP_PORT }}
-
-          remote-path: /home/container/
+          remote-path: "/home/container/"
 
