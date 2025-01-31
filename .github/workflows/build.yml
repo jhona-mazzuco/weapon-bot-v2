@@ -14,7 +14,10 @@ jobs:
         node-version: [ 20.11 ]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout App
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v4
