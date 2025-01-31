@@ -46,6 +46,4 @@ jobs:
           remote-user: "${{ secrets.FTP_USER }}"
           remote-password: "${{ secrets.FTP_PASSWORD }}"
           remote-port: "${{ secrets.FTP_PORT }}"
-
-          remote-path: "/home/container/"
-
+          sync: "full"
