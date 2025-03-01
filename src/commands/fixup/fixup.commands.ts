@@ -23,8 +23,11 @@ export class FixupCommands {
         'twittpr.com',
         'twitter.com',
         'fixupx.com',
+        'fixvx.com',
+        'instagram.com',
+        'instagramez.com',
         'bsky.app',
-      ].includes(handleUrl.hostname);
+      ].includes(handleUrl.hostname.replace('www.', ''));
       if (!isValid) {
         throw new Error(`Not a valid URL: ${url}`);
       }
@@ -32,16 +35,23 @@ export class FixupCommands {
       const isBlueSky = handleUrl.hostname.includes('bsky');
       if (isBlueSky) {
         return interaction.reply(`https://vxsky.app${handleUrl.pathname}`);
-      } else {
+      }
+
+      const isInstagram = handleUrl.hostname.includes('instagram');
+      if (isInstagram) {
         return interaction.reply(
-          `https://fxtwitter.com${handleUrl.pathname.replace('/pt', '')}/pt`,
+          `https://instagramez.com${handleUrl.pathname}`,
         );
       }
+
+      return interaction.reply(
+        `https://fxtwitter.com${handleUrl.pathname.replace('/pt', '')}/pt`,
+      );
     } catch (error) {
       this.logger.error(error.message);
       return interaction.reply({
         content:
-          'Por favor insira um link do X válido, caso deveria funcionar avisar os administradores!',
+          'Por favor insira um link válido, caso deveria funcionar avise os dos moderadores!',
       });
     }
   }
