@@ -34,9 +34,14 @@ export class MetacriticCommands {
           return this._service.getScoreAndDetail(slug).pipe(
             switchMap((review) => {
               const releaseDate = new Date(review.releaseDate);
+              let description = review.description;
+              if (review.description.length > 500) {
+                description = `${description.slice(0, 500)}...`;
+              }
+
               const embed = new EmbedBuilder()
                 .setTitle(review.name)
-                .setDescription(review.description)
+                .setDescription(description)
                 .setURL(review.url)
                 .setThumbnail(review.score)
                 .setImage(review.banner)
