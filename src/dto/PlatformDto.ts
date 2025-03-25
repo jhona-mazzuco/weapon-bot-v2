@@ -1,4 +1,5 @@
 import { StringOption } from 'necord';
+import { Platform } from '../models/Platform';
 
 export class PlatformDto {
   @StringOption({
@@ -7,5 +8,5 @@ export class PlatformDto {
     autocomplete: true,
     required: true,
   })
-  platform: string;
+  platform: Platform;
 }

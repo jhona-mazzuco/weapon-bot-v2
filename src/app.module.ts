@@ -6,9 +6,7 @@ import * as process from 'node:process';
 import { AppService } from './app.service';
 import { COMMANDS } from './commands';
 import { SERVICES } from './services';
-import { MetacriticCommands } from './commands/metacritic/metacritic.commands';
 import { HttpModule } from '@nestjs/axios';
-import { MetacriticService } from './services/metacritic/metacritic.service';
 
 @Module({
   imports: [
@@ -19,7 +17,6 @@ import { MetacriticService } from './services/metacritic/metacritic.service';
       intents: [IntentsBitField.Flags.Guilds],
     }),
   ],
-  providers: [AppService, ...COMMANDS, ...SERVICES, MetacriticService],
-  controllers: [MetacriticCommands],
+  providers: [AppService, ...COMMANDS, ...SERVICES],
 })
 export class AppModule {}

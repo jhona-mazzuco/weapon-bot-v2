@@ -1,39 +1,20 @@
 import { Injectable, Logger, UseInterceptors } from '@nestjs/common';
-import * as cheerio from 'cheerio';
-import { EmbedBuilder } from 'discord.js';
 import { Context, Options, SlashCommand, SlashCommandContext } from 'necord';
 import { PlatformAutocompleteInterceptor } from '../../autocompletes/platform.interceptor';
 import { PlatformDto } from '../../dto/PlatformDto';
-import { MostPlayedRanking } from '../../models/MostPlayedRanking';
+import { Platform } from '../../models/Platform';
+import { MostPlayedRankingService } from '../../services/most-played-ranking/most-played-ranking.service';
+import { EmbedBuilder } from 'discord.js';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class MostPlayedRankingCommands {
   private readonly logger = new Logger(MostPlayedRankingCommands.name);
 
-  private async _createRanking(href: string): Promise<MostPlayedRanking> {
-    const url = new URL(href);
-    let source = url.origin;
-    const responseCharts = await fetch(url.href);
-    const htmlCharts = await responseCharts.text();
-    const charts$ = cheerio.load(htmlCharts);
-    const { rankingNewsHref } = charts$('div.news-section.list').extract({
-      rankingNewsHref: {
-        selector: 'article > a',
-        value: 'href',
-      },
-    });
-    source += rankingNewsHref;
-    const responseNews = await fetch(source);
-    const htmlNews = await responseNews.text();
-    const news$ = cheerio.load(htmlNews);
-    const ranking: string[] = [];
-    const rows$ = news$('div.tab-w table tbody tr').slice(1);
-    for (const row of rows$.get()) {
-      const [position, name] = row.children;
-      ranking.push(`${news$(position).text()} - ${news$(name).text()}`);
-    }
-    return { ranking, source };
-  }
+  constructor(
+    private _http: HttpService,
+    private _service: MostPlayedRankingService,
+  ) {}
 
   @UseInterceptors(PlatformAutocompleteInterceptor)
   @SlashCommand({
@@ -44,31 +25,46 @@ export class MostPlayedRankingCommands {
     @Context() [interaction]: SlashCommandContext,
     @Options() { platform }: PlatformDto,
   ) {
-    const COMMAND_CONFIG = {
-      Playstation: {
-        chartUrl: 'https://www.truetrophies.com/playstation-chart',
-        color: 0x006fcd,
-      },
-      Xbox: {
-        chartUrl: 'https://www.trueachievements.com/xbox-chart',
+    const config = {
+      [Platform.Xbox]: {
+        name: 'Xbox',
         color: 0x107c10,
+        url: 'https://www.microsoft.com/en-us/store/most-played/games/xbox',
+        logo: 'https://img.icons8.com/ios_filled/512/FFFFFF/xbox.png',
       },
-    };
+      [Platform.Playstation]: {
+        name: 'Playstation',
+        color: 0x006fcd,
+        url: 'https://ps-timetracker.com/statistic/last-24-hours',
+        logo: 'https://img.icons8.com/ios11/512/FFFFFF/play-station.png',
+      },
+    }[platform];
 
     return interaction
       .deferReply()
-      .then(() => this._createRanking(COMMAND_CONFIG[platform].chartUrl))
-      .then(({ ranking, source }) =>
-        interaction.fetchReply().then(() => {
-          const embed = new EmbedBuilder()
-            .setColor(COMMAND_CONFIG[platform].color)
-            .setTitle(`Jogos mais jogados no ${platform}`)
-            .setURL(source)
-            .setDescription(ranking.join('\n'));
-
-          return interaction.editReply({ embeds: [embed] });
-        }),
+      .then(() => interaction.fetchReply())
+      .then(() =>
+        this._http.get(config.url, { responseType: 'text' }).toPromise(),
       )
+      .then((response) => response.data)
+      .then((template) => {
+        if (Platform.Playstation === platform) {
+          return this._service.getPlaystationRanking(template);
+        }
+
+        return this._service.getXboxRanking(template);
+      })
+      .then((ranking) => {
+        const embed = new EmbedBuilder();
+
+        embed.setTitle(`Mais jogados do ${config.name}`);
+        embed.setThumbnail(config.logo);
+        embed.setURL(config.url);
+        embed.setColor(config.color);
+        embed.setDescription(ranking.join('\n'));
+
+        return interaction.editReply({ embeds: [embed] });
+      })
       .catch((error) => {
         this.logger.error(error.message);
         return interaction.editReply({
