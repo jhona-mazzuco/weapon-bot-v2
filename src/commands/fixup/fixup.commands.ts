@@ -18,6 +18,7 @@ export class FixupCommands {
       const handleUrl = new URL(url);
       const isValid = [
         'x.com',
+        'xcancel.com',
         'fxtwitter.com',
         'vxtwitter.com',
         'twittpr.com',
