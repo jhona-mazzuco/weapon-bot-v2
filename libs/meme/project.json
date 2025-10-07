@@ -1,0 +1,9 @@
+{
+  "name": "meme",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/meme/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project meme --web",
+  "targets": {}
+}

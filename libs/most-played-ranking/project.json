@@ -1,0 +1,9 @@
+{
+  "name": "most-played-ranking",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/most-played-ranking/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project most-played-ranking --web",
+  "targets": {}
+}

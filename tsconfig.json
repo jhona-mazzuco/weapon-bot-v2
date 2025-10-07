@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@refugiogamer/fixup": ["libs/fixup/src/index.ts"],
+      "@refugiogamer/meme": ["libs/meme/src/index.ts"],
+      "@refugiogamer/metacritic": ["libs/metacritic/src/index.ts"],
+      "@refugiogamer/most-played-ranking": [
+        "libs/most-played-ranking/src/index.ts"
+      ]
+    }
   }
 }
