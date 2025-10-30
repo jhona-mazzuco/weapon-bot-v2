@@ -1,6 +1,5 @@
 import { Injectable, Logger, UseInterceptors } from '@nestjs/common';
 import { Context, Options, SlashCommand, SlashCommandContext } from 'necord';
-import { EmbedBuilder } from 'discord.js';
 import { HttpService } from '@nestjs/axios';
 import { MostPlayedRankingService } from './most-played-ranking.service';
 import { PlatformAutocompleteInterceptor } from './platform.interceptor';
@@ -56,15 +55,19 @@ export class MostPlayedRankingCommands {
         return this._service.getXboxRanking(template);
       })
       .then((ranking) => {
-        const embed = new EmbedBuilder();
-
-        embed.setTitle(`Mais jogados do ${config.name}`);
-        embed.setThumbnail(config.logo);
-        embed.setURL(config.url);
-        embed.setColor(config.color);
-        embed.setDescription(ranking.join('\n'));
-
-        return interaction.editReply({ embeds: [embed] });
+        return interaction.editReply({
+          embeds: [
+            {
+              url: config.url,
+              color: config.color,
+              title: `Mais jogados do ${config.name}`,
+              description: ranking.join('\n'),
+              thumbnail: {
+                url: config.logo,
+              },
+            },
+          ],
+        });
       })
       .catch((error) => {
         this.logger.error(error.message);

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OpenAI } from 'openai';
 import { Meme } from './models';
-import { EmbedBuilder } from 'discord.js';
+import { APIEmbed } from 'discord.js';
 import {
   baseContext,
   caishitContext,
@@ -31,10 +31,13 @@ export class MemeService {
   }
 
   buildEmbed({ author, avatar, message }: Meme) {
-    return new EmbedBuilder()
-      .setTitle(author)
-      .setThumbnail(`https://bucket.refugiogamer.com/2/${avatar}.webp`)
-      .setDescription(message);
+    return {
+      title: author,
+      description: message,
+      thumbnail: {
+        url: `https://bucket.refugiogamer.com/2/${avatar}.webp`,
+      },
+    };
   }
 
   async getKonservarocoMeme(): Promise<Meme> {

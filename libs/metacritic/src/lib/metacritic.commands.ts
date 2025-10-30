@@ -1,7 +1,6 @@
 import { Controller, Logger, UseInterceptors } from '@nestjs/common';
 import { Context, Options, SlashCommand, SlashCommandContext } from 'necord';
 import { switchMap } from 'rxjs';
-import { EmbedBuilder } from 'discord.js';
 import { format } from 'date-fns';
 import { MetacriticAutocompleteInterceptor } from './metacritic.interceptor';
 import { MetacriticService } from './metacritic.service';
@@ -39,22 +38,34 @@ export class MetacriticCommands {
                 description = `${description.slice(0, 500)}...`;
               }
 
-              const embed = new EmbedBuilder()
-                .setTitle(review.name)
-                .setDescription(description)
-                .setURL(review.url)
-                .setThumbnail(review.score)
-                .setImage(review.banner)
-                .addFields(
-                  { name: 'Reviews', value: `${review.count}`, inline: true },
-                  { name: 'Platform', value: review.platform, inline: true },
+              return interaction.editReply({
+                embeds: [
                   {
-                    name: 'Release On',
-                    value: format(releaseDate, 'MMM dd, yyyy'),
-                    inline: true,
+                    title: review.name,
+                    description,
+                    url: review.url,
+                    image: { url: review.banner },
+                    thumbnail: { url: review.score },
+                    fields: [
+                      {
+                        name: 'Reviews',
+                        value: `${review.count}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Platform',
+                        value: review.platform,
+                        inline: true,
+                      },
+                      {
+                        name: 'Release On',
+                        value: format(releaseDate, 'MMM dd, yyyy'),
+                        inline: true,
+                      },
+                    ],
                   },
-                );
-              return interaction.editReply({ embeds: [embed] });
+                ],
+              });
             }),
           );
         }),
