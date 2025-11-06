@@ -41,9 +41,12 @@ export class FixupCommands {
 
       const isInstagram = handleUrl.hostname.includes('instagram');
       if (isInstagram) {
-        return interaction.reply(
-          `https://kkinstagram.com${handleUrl.pathname}`,
-        );
+        let pathname: string | string[] = handleUrl.pathname
+          .split('')
+          .reverse();
+        pathname = pathname[0] === '/' ? pathname.slice(1) : pathname;
+        pathname = pathname.reverse().join('');
+        return interaction.reply(`https://kkinstagram.com${pathname}`);
       }
 
       return interaction.reply(
