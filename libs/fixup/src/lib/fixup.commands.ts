@@ -27,6 +27,7 @@ export class FixupCommands {
         'fixvx.com',
         'instagram.com',
         'instagramez.com',
+        'kkinstagram.com',
         'bsky.app',
       ].includes(handleUrl.hostname.replace('www.', ''));
       if (!isValid) {
@@ -41,7 +42,7 @@ export class FixupCommands {
       const isInstagram = handleUrl.hostname.includes('instagram');
       if (isInstagram) {
         return interaction.reply(
-          `https://instagramez.com${handleUrl.pathname}`,
+          `https://kkinstagram.com${handleUrl.pathname}`,
         );
       }
 
