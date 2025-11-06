@@ -14,11 +14,9 @@ import {
 
 @Injectable()
 export class MemeService {
-  private readonly _openai: OpenAI;
-
-  constructor() {
-    this._openai = new OpenAI({ apiKey: process.env['OPENAI_API_KEY'] });
-  }
+  private readonly _openai: OpenAI = new OpenAI({
+    apiKey: process.env['OPENAI_API_KEY'],
+  });
 
   private _getMessage(context: string) {
     const input = baseContext + context;
