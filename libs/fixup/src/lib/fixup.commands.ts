@@ -46,7 +46,7 @@ export class FixupCommands {
           .reverse();
         pathname = pathname[0] === '/' ? pathname.slice(1) : pathname;
         pathname = pathname.reverse().join('');
-        return interaction.reply(`https://kkinstagram.com${pathname}`);
+        return interaction.reply(`https://uuinstagram.com${pathname}`);
       }
 
       return interaction.reply(
