@@ -28,6 +28,7 @@ export class FixupCommands {
         'instagram.com',
         'instagramez.com',
         'kkinstagram.com',
+        'threads.com',
         'bsky.app',
       ].includes(handleUrl.hostname.replace('www.', ''));
       if (!isValid) {
@@ -49,8 +50,13 @@ export class FixupCommands {
         return interaction.reply(`https://uuinstagram.com${pathname}`);
       }
 
+      const isThreads = handleUrl.hostname.includes('threads.com');
+      if (isThreads) {
+        return interaction.reply('https://fixthreads.net' + handleUrl.pathname);
+      }
+
       return interaction.reply(
-        `https://fxtwitter.com${handleUrl.pathname.replace('/pt', '')}/pt`,
+        'https://fxtwitter.com' + handleUrl.pathname.replace('/pt', '') + '/pt',
       );
     } catch (error) {
       this.logger.error((error as Error).message);
