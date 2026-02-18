@@ -56,7 +56,7 @@ export class FixupCommands {
       }
 
       return interaction.reply(
-        'https://fxtwitter.com' + handleUrl.pathname.replace('/pt', '') + '/pt',
+        'https://fixupx.com' + handleUrl.pathname.replace('/pt', '') + '/pt',
       );
     } catch (error) {
       this.logger.error((error as Error).message);
