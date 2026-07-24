@@ -8,7 +8,6 @@ import { HttpModule } from '@nestjs/axios';
 import { MetacriticModule } from '@refugiogamer/metacritic';
 import { FixupModule } from '@refugiogamer/fixup';
 import { MostPlayedRankingModule } from '@refugiogamer/most-played-ranking';
-import { MemeModule } from '@refugiogamer/meme';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { MemeModule } from '@refugiogamer/meme';
       intents: [IntentsBitField.Flags.Guilds],
     }),
     FixupModule,
-    MemeModule,
     MetacriticModule,
     MostPlayedRankingModule,
   ],
