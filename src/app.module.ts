@@ -8,6 +8,7 @@ import { HttpModule } from '@nestjs/axios';
 import { MetacriticModule } from '@refugiogamer/metacritic';
 import { FixupModule } from '@refugiogamer/fixup';
 import { MostPlayedRankingModule } from '@refugiogamer/most-played-ranking';
+import { HealthcheckModule } from '@refugiogamer/healthcheck';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MostPlayedRankingModule } from '@refugiogamer/most-played-ranking';
     }),
     FixupModule,
     MetacriticModule,
+    HealthcheckModule,
     MostPlayedRankingModule,
   ],
   providers: [AppService],

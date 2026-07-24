@@ -23,7 +23,8 @@
       "@refugiogamer/metacritic": ["libs/metacritic/src/index.ts"],
       "@refugiogamer/most-played-ranking": [
         "libs/most-played-ranking/src/index.ts"
-      ]
+      ],
+      "@refugiogamer/healthcheck": ["libs/healthcheck/src/index.ts"]
     }
   }
 }
